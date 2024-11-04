@@ -1,5 +1,6 @@
 package org.example.testesautomatizados.steps;
 
+import com.networknt.schema.ValidationMessage;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Então;
@@ -12,6 +13,7 @@ import org.junit.Assert;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class CadastroEntregaSteps {
@@ -59,7 +61,9 @@ public class CadastroEntregaSteps {
     }
 
     @Então("a resposta da requisição deve estar em conformidade com o contrato selecionado")
-    public void aRespostaDaRequisiçãoDeveEstarEmConformidadeComOContratoSelecionado() {
+    public void aRespostaDaRequisiçãoDeveEstarEmConformidadeComOContratoSelecionado() throws IOException {
+        Set<ValidationMessage> validateResponse = cadastroEntregasService.validateResponseAgainstSchema();
+        Assert.assertTrue("O contrato não está em conformidade" + validateResponse, validateResponse.isEmpty());
     }
 }
 
